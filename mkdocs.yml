@@ -1,0 +1,30 @@
+site_name: 范凯说AI · X 情报
+site_url: https://robbin.github.io/x-news/
+site_description: 每日 X 情报报告
+repo_url: https://github.com/robbin/x-news
+theme:
+  name: material
+  language: zh
+  palette:
+    scheme: default
+    primary: white
+    accent: amber
+  features:
+    - navigation.tabs
+    - navigation.indexes
+    - navigation.top
+    - search.suggest
+    - search.highlight
+plugins:
+  - search:
+      lang: [zh, en]
+hooks:
+  - hooks/autonav.py
+extra_css:
+  - stylesheets/extra.css
+markdown_extensions:
+  - tables
+  - toc:
+      permalink: true
+  - admonition
+  - pymdownx.superfences

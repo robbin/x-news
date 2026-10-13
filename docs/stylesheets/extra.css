@@ -1,0 +1,14 @@
+:root, [data-md-color-scheme="default"] {
+  --md-primary-fg-color: #ffffff;
+  --md-primary-bg-color: #111111;
+  --md-primary-bg-color--light: #444444;
+  --md-accent-fg-color: #F4C542;
+  --md-typeset-a-color: #111111;
+  --md-default-fg-color: #111111;
+}
+.md-header, .md-tabs { background: #ffffff; color: #111111; border-bottom: 3px solid #F4C542; }
+.md-typeset a { text-decoration: underline; text-decoration-color: #F4C542; text-decoration-thickness: 2px; }
+.md-typeset a:hover { background: #F4C542; color: #111; }
+.md-typeset h1, .md-typeset h2 { color: #111; font-weight: 700; }
+.md-typeset h2 { border-left: 4px solid #F4C542; padding-left: .5em; }
+.md-nav__link--active { color: #111 !important; font-weight: 700; }
