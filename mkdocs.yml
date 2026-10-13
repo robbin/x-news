@@ -28,3 +28,6 @@ markdown_extensions:
       permalink: true
   - admonition
   - pymdownx.superfences
+  - pymdownx.magiclink:
+      hide_protocol: false
+      repo_url_shortener: false

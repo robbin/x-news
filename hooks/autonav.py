@@ -77,3 +77,23 @@ def on_config(config):
     _write(os.path.join(docs, "index.md"), "\n".join(home) + "\n")
     config["nav"] = nav
     return config
+
+
+_CODE_URL = re.compile(r"`\s*(https?://[^\s`]+)\s*`")
+_BARE_URL = re.compile(r"(?<![A-Za-z0-9_(<\[\"'=/])(https?://[A-Za-z0-9\-._~:/?#\[\]@!$&'*+,;=%]+)")
+
+
+def on_page_markdown(markdown, page, config, files):
+    """Make every URL clickable: unwrap `url` code spans and wrap bare URLs in <...>
+    (outside fenced code blocks), so CJK text adjacent to URLs still linkifies."""
+    out, fence = [], False
+    for line in markdown.split("\n"):
+        if line.lstrip().startswith(("```", "~~~")):
+            fence = not fence
+            out.append(line)
+            continue
+        if not fence:
+            line = _CODE_URL.sub(r"<\1>", line)
+            line = _BARE_URL.sub(lambda m: "<" + m.group(1).rstrip(".,;:!?)") + ">" + m.group(1)[len(m.group(1).rstrip(".,;:!?)")):], line)
+        out.append(line)
+    return "\n".join(out)
