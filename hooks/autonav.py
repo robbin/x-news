@@ -1,15 +1,18 @@
-"""Auto-generate nav + index pages from docs/<category>/*.md (newest first).
-New reports appear without editing mkdocs.yml."""
+"""Auto-generate nav + index pages (zh + en) from docs/<category>/*.md (newest first).
+Bilingual (mkdocs-static-i18n, suffix structure): `foo.md` = Chinese (default), `foo.en.md` = English.
+New reports appear without editing mkdocs.yml. Nav report entries carry no explicit title, so each
+language shows the page's own title; section labels are translated via i18n nav_translations."""
 import os, re, datetime
 import yaml
 
 CATS = [
-    ("Chinese-Topics", "中文选题"),
-    ("English-Topics", "英文选题"),
-    ("Daily", "X 日报"),
-    ("High-Traffic", "中文高流量"),
+    ("Chinese-Topics", "中文选题", "Chinese Topics"),
+    ("English-Topics", "英文选题", "English Topics"),
+    ("Daily", "X 日报", "X Daily"),
+    ("High-Traffic", "中文高流量", "Chinese High-Traffic"),
 ]
 LATEST_N = 10
+LANG_SUFFIX = re.compile(r"\.([a-z]{2})\.md$")
 
 
 def _meta(path):
@@ -49,51 +52,45 @@ def on_config(config):
     docs = config["docs_dir"]
     nav = [{"首页": "index.md"}]
     latest = []
-    for folder, label in CATS:
+    for folder, label, label_en in CATS:
         d = os.path.join(docs, folder)
         os.makedirs(d, exist_ok=True)
-        reports = []
+        reports = []  # (date, zh_fn, zh_title, en_title or None)
         for fn in os.listdir(d):
-            if fn.endswith(".md") and fn != "index.md":
-                t, dt = _meta(os.path.join(d, fn))
-                reports.append((dt, fn, t))
+            if not fn.endswith(".md") or LANG_SUFFIX.search(fn) or fn == "index.md":
+                continue
+            t, dt = _meta(os.path.join(d, fn))
+            en = os.path.join(d, fn[:-3] + ".en.md")
+            t_en = _meta(en)[0] if os.path.exists(en) else None
+            reports.append((dt, fn, t, t_en))
         reports.sort(key=lambda r: (r[0], r[1]), reverse=True)
-        lines = [f"# {label}\n"]
+        zh = [f"# {label}\n"]
+        en = [f"# {label_en}\n"]
         if reports:
-            lines += [f"- **{dt}** · [{t}]({fn})" for dt, fn, t in reports]
+            zh += [f"- **{dt}** · [{t}]({fn})" for dt, fn, t, _ in reports]
+            en += [f"- **{dt}** · [{te or t}]({fn})" + ("" if te else " *(Chinese only)*") for dt, fn, t, te in reports]
         else:
-            lines.append("!!! note \"暂无报告\"\n    该分类还没有报告，主人请稍后再来。")
-        _write(os.path.join(d, "index.md"), "\n".join(lines) + "\n")
-        nav.append({label: [f"{folder}/index.md"] + [{t: f"{folder}/{fn}"} for dt, fn, t in reports]})
-        latest += [(dt, folder, fn, t, label) for dt, fn, t in reports]
+            zh.append("!!! note \"暂无报告\"\n    该分类还没有报告，主人请稍后再来。")
+            en.append("!!! note \"No reports yet\"\n    Nothing in this section yet. Please check back later.")
+        _write(os.path.join(d, "index.md"), "\n".join(zh) + "\n")
+        _write(os.path.join(d, "index.en.md"), "\n".join(en) + "\n")
+        nav.append({label: [f"{folder}/index.md"] + [f"{folder}/{fn}" for _, fn, _, _ in reports]})
+        latest += [(dt, folder, fn, t, te, label, label_en) for dt, fn, t, te in reports]
     latest.sort(reverse=True)
+    top = latest[:LATEST_N]
     home = ["# 范凯说AI · X 情报\n", "主人好，这里是每日 X 情报汇总。\n", "## 最新报告\n"]
-    if latest:
-        home += [f"- **{dt}** · `{label}` · [{t}]({folder}/{fn})" for dt, folder, fn, t, label in latest[:LATEST_N]]
+    home_en = ["# Fan Kai on AI · X Intel\n", "Welcome! A daily digest of intelligence from X (Twitter).\n", "## Latest reports\n"]
+    if top:
+        home += [f"- **{dt}** · `{l}` · [{t}]({f}/{fn})" for dt, f, fn, t, te, l, le in top]
+        home_en += [f"- **{dt}** · `{le}` · [{te or t}]({f}/{fn})" for dt, f, fn, t, te, l, le in top]
     else:
         home.append("暂无报告。")
+        home_en.append("No reports yet.")
     home.append("\n## 分类\n")
-    home += [f"- [{label}]({folder}/index.md)" for folder, label in CATS]
+    home_en.append("\n## Sections\n")
+    home += [f"- [{l}]({f}/index.md)" for f, l, _ in CATS]
+    home_en += [f"- [{le}]({f}/index.md)" for f, _, le in CATS]
     _write(os.path.join(docs, "index.md"), "\n".join(home) + "\n")
+    _write(os.path.join(docs, "index.en.md"), "\n".join(home_en) + "\n")
     config["nav"] = nav
     return config
-
-
-_CODE_URL = re.compile(r"`\s*(https?://[^\s`]+)\s*`")
-_BARE_URL = re.compile(r"(?<![A-Za-z0-9_(<\[\"'=/])(https?://[A-Za-z0-9\-._~:/?#\[\]@!$&'*+,;=%]+)")
-
-
-def on_page_markdown(markdown, page, config, files):
-    """Make every URL clickable: unwrap `url` code spans and wrap bare URLs in <...>
-    (outside fenced code blocks), so CJK text adjacent to URLs still linkifies."""
-    out, fence = [], False
-    for line in markdown.split("\n"):
-        if line.lstrip().startswith(("```", "~~~")):
-            fence = not fence
-            out.append(line)
-            continue
-        if not fence:
-            line = _CODE_URL.sub(r"<\1>", line)
-            line = _BARE_URL.sub(lambda m: "<" + m.group(1).rstrip(".,;:!?)") + ">" + m.group(1)[len(m.group(1).rstrip(".,;:!?)")):], line)
-        out.append(line)
-    return "\n".join(out)

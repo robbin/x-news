@@ -9,3 +9,9 @@ Site: https://news.fankai.me/  Repo: https://github.com/robbin/x-news
 
 ## Sync procedure (git via gh)
 Run `/workspace/news-site/sync.sh`. `/workspace/news-site` is a git clone of robbin/x-news (auth via `gh auth setup-git`). The script pulls, mirrors `/workspace/News/<cat>/*.md` into `docs/<cat>/` (deleting reports removed from the source) (generated `index.md` kept), commits and pushes to `main` if anything changed. The push triggers the Pages workflow; check with `gh run list -R robbin/x-news` / `gh run watch -R robbin/x-news`. Site updates in ~1–2 min.
+
+## Bilingual (中文 / English)
+- Plugin `mkdocs-static-i18n` (suffix layout): `foo.md` = Chinese (default, served at `/`), `foo.en.md` = English (served at `/en/`). Missing `.en.md` falls back to Chinese.
+- Switch: Material language selector + a `中文/EN` pill at the top-right (`docs/javascripts/header-links.js`); both jump to the same article in the other language.
+- `hooks/autonav.py` also generates `index.en.md` (home + each category). English titles come from the `.en.md` frontmatter `title`.
+- English reports live next to the Chinese ones in `/workspace/News/<cat>/` as `<same name>.en.md`; `sync.sh` mirrors both.

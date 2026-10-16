@@ -18,6 +18,27 @@ theme:
 plugins:
   - search:
       lang: [zh, en]
+  - i18n:
+      docs_structure: suffix
+      fallback_to_default: true
+      reconfigure_material: true
+      reconfigure_search: true
+      languages:
+        - locale: zh
+          name: 中文
+          default: true
+          build: true
+        - locale: en
+          name: English
+          build: true
+          site_name: Fan Kai on AI · X Intel
+          site_description: Daily X intelligence reports
+          nav_translations:
+            首页: Home
+            中文选题: Chinese Topics
+            英文选题: English Topics
+            X 日报: X Daily
+            中文高流量: Chinese High-Traffic
 hooks:
   - hooks/autonav.py
 extra:

@@ -18,3 +18,5 @@
 @media (max-width: 76em) { .fk-links { display: none; } }
 .md-footer, .md-footer-meta { background: #ffffff; color: #111; border-top: 3px solid #F4C542; }
 .md-footer-meta__inner, .md-social__link { color: #111 !important; }
+.fk-lang { margin: 0 .6em 0 .4em; padding: .15em .7em; border: 2px solid #F4C542; border-radius: 1em; font-size: .75rem; font-weight: 700; color: #111 !important; white-space: nowrap; }
+.fk-lang:hover { background: #F4C542; }
