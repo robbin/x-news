@@ -12,3 +12,9 @@
 .md-typeset h1, .md-typeset h2 { color: #111; font-weight: 700; }
 .md-typeset h2 { border-left: 4px solid #F4C542; padding-left: .5em; }
 .md-nav__link--active { color: #111 !important; font-weight: 700; }
+.fk-links { display: flex; gap: 1.1em; margin: 0 .8em; font-size: .75rem; font-weight: 600; white-space: nowrap; }
+.fk-links a { color: #111; text-decoration: none; border-bottom: 2px solid transparent; }
+.fk-links a:hover { border-bottom-color: #F4C542; }
+@media (max-width: 76em) { .fk-links { display: none; } }
+.md-footer, .md-footer-meta { background: #ffffff; color: #111; border-top: 3px solid #F4C542; }
+.md-footer-meta__inner, .md-social__link { color: #111 !important; }

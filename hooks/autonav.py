@@ -4,10 +4,10 @@ import os, re, datetime
 import yaml
 
 CATS = [
-    ("Chinese-Topics", "中文 Top 20"),
-    ("English-Topics", "英文 Top 20"),
-    ("Daily", "X 新闻日报"),
-    ("High-Traffic", "中文高流量发现"),
+    ("Chinese-Topics", "中文选题"),
+    ("English-Topics", "英文选题"),
+    ("Daily", "X 日报"),
+    ("High-Traffic", "中文高流量"),
 ]
 LATEST_N = 10
 

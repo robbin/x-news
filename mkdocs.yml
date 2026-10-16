@@ -20,6 +20,23 @@ plugins:
       lang: [zh, en]
 hooks:
   - hooks/autonav.py
+extra:
+  generator: false
+  social:
+    - icon: material/home
+      link: https://fankai.me/
+      name: 主站 fankai.me
+    - icon: material/school
+      link: https://fankaishuo.ai/
+      name: 教程 fankaishuo.ai
+    - icon: fontawesome/brands/youtube
+      link: https://www.youtube.com/@fankaishuoai
+      name: YouTube
+    - icon: fontawesome/brands/x-twitter
+      link: https://x.com/fankaishuoai
+      name: X
+extra_javascript:
+  - javascripts/header-links.js
 extra_css:
   - stylesheets/extra.css
 markdown_extensions:
