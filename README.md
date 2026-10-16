@@ -1,7 +1,7 @@
 # x-news · 范凯说AI · X 情报
 
 MkDocs Material site, deployed to GitHub Pages by `.github/workflows/deploy.yml` on every push to `main`.
-Site: https://robbin.github.io/x-news/  Repo: https://github.com/robbin/x-news
+Site: https://news.fankai.me/  Repo: https://github.com/robbin/x-news
 
 ## Layout
 - `docs/{Daily,Chinese-Topics,English-Topics,High-Traffic}/*.md` — reports (YAML frontmatter `title`, `date` used if present; else first `#` heading / filename date).
