@@ -5,7 +5,7 @@ set -euo pipefail
 SRC=/workspace/News; REPO=/workspace/news-site
 cd "$REPO"
 git pull -q --rebase origin main
-for c in Daily Chinese-Topics English-Topics High-Traffic; do
+for c in Daily Chinese-Topics English-Topics; do
   mkdir -p "$SRC/$c" "docs/$c"
   for f in "$SRC/$c"/*.md; do [ -e "$f" ] || continue; n=$(basename "$f"); case "$n" in index.md|index.*.md) continue;; esac
     cmp -s "$f" "docs/$c/$n" || cp "$f" "docs/$c/$n"; done

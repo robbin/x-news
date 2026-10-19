@@ -37,8 +37,7 @@ plugins:
             首页: Home
             中文选题: Chinese Topics
             英文选题: English Topics
-            X 日报: X Daily
-            中文高流量: Chinese High-Traffic
+            X AI 日报: X AI Daily
 hooks:
   - hooks/autonav.py
 extra:

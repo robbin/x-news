@@ -8,8 +8,7 @@ import yaml
 CATS = [
     ("Chinese-Topics", "中文选题", "Chinese Topics"),
     ("English-Topics", "英文选题", "English Topics"),
-    ("Daily", "X 日报", "X Daily"),
-    ("High-Traffic", "中文高流量", "Chinese High-Traffic"),
+    ("Daily", "X AI 日报", "X AI Daily"),
 ]
 LATEST_N = 10
 LANG_SUFFIX = re.compile(r"\.([a-z]{2})\.md$")
@@ -78,8 +77,8 @@ def on_config(config):
         latest += [(dt, folder, fn, t, te, label, label_en) for dt, fn, t, te in reports]
     latest.sort(reverse=True)
     top = latest[:LATEST_N]
-    home = ["# 范凯说AI · X 情报\n", "主人好，这里是每日 X 情报汇总。\n", "## 最新报告\n"]
-    home_en = ["# Fan Kai on AI · X Intel\n", "Welcome! A daily digest of intelligence from X (Twitter).\n", "## Latest reports\n"]
+    home = ["# 范凯说AI · X 情报\n", "## 最新报告\n"]
+    home_en = ["# Fan Kai on AI · X Intel\n", "## Latest reports\n"]
     if top:
         home += [f"- **{dt}** · `{l}` · [{t}]({f}/{fn})" for dt, f, fn, t, te, l, le in top]
         home_en += [f"- **{dt}** · `{le}` · [{te or t}]({f}/{fn})" for dt, f, fn, t, te, l, le in top]
