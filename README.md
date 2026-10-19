@@ -1,4 +1,4 @@
-# x-news · 范凯说AI · X 情报
+# x-news · 范凯说AI · X 新闻
 
 MkDocs Material site, deployed to GitHub Pages by `.github/workflows/deploy.yml` on every push to `main`.
 Site: https://news.fankai.me/  Repo: https://github.com/robbin/x-news

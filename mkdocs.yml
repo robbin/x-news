@@ -1,6 +1,6 @@
-site_name: 范凯说AI · X 情报
+site_name: 范凯说AI · X 新闻
 site_url: https://news.fankai.me/
-site_description: 每日 X 情报报告
+site_description: 每日 X 新闻报告
 repo_url: https://github.com/robbin/x-news
 theme:
   name: material
@@ -31,7 +31,7 @@ plugins:
         - locale: en
           name: English
           build: true
-          site_name: Fan Kai on AI · X Intel
+          site_name: Fan Kai on AI · X News
           site_description: Daily X intelligence reports
           nav_translations:
             首页: Home

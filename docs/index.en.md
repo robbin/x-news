@@ -1,4 +1,4 @@
-# Fan Kai on AI · X Intel
+# Fan Kai on AI · X News
 
 ## Latest reports
 

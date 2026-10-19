@@ -77,8 +77,8 @@ def on_config(config):
         latest += [(dt, folder, fn, t, te, label, label_en) for dt, fn, t, te in reports]
     latest.sort(reverse=True)
     top = latest[:LATEST_N]
-    home = ["# 范凯说AI · X 情报\n", "## 最新报告\n"]
-    home_en = ["# Fan Kai on AI · X Intel\n", "## Latest reports\n"]
+    home = ["# 范凯说AI · X 新闻\n", "## 最新报告\n"]
+    home_en = ["# Fan Kai on AI · X News\n", "## Latest reports\n"]
     if top:
         home += [f"- **{dt}** · `{l}` · [{t}]({f}/{fn})" for dt, f, fn, t, te, l, le in top]
         home_en += [f"- **{dt}** · `{le}` · [{te or t}]({f}/{fn})" for dt, f, fn, t, te, l, le in top]
