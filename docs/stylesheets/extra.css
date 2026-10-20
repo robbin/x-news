@@ -416,7 +416,7 @@ body {
   max-width: 18em;
   margin: 0 0 1.05rem;
   color: var(--fk-ink);
-  font-size: clamp(1.75rem, 3.8vw, 2.5rem);
+  font-size: clamp(1.55rem, 3.2vw, 2.05rem);
   font-weight: 780;
   line-height: 1.16;
   letter-spacing: -.028em;
@@ -1251,7 +1251,7 @@ body {
   }
 
   .md-typeset .fk-hero h1 {
-    font-size: clamp(1.8rem, 6.2vw, 2.5rem);
+    font-size: clamp(1.55rem, 5.4vw, 2.05rem);
     line-height: 1.22;
   }
 

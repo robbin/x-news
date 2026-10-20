@@ -170,11 +170,11 @@ def on_page_markdown(markdown, page, config, files):
         # 分类列表页：顶部标签已经是导航，左侧导航和右侧目录都是重复的。
         page.meta["hide"] = list(dict.fromkeys([*page.meta.get("hide", []), "navigation", "toc"]))
     if home:
-        title = "AI news worth exploring." if en else "看懂 AI，选对下一步。"
-        kicker = "FAN KAI · AI NEWS" if en else "范凯说AI · 看懂 · 选对 · 用起来"
+        title = "Turn your skills into a business." if en else "把个人能力经营成事业"
+        kicker = "FAN KAI · CREATE VALUE WITH AI" if en else "范凯说AI · 用 AI 创造价值"
         subtitle = (
-            "Follow the news on X, then go deeper. Daily reports and topic briefs link back to sources; my personal site is where I share practice and reflection."
-            if en else "在这里发现 X 上的 AI 动态与讨论，再沿着来源深入阅读。想看我的亲身实践与完整思考，欢迎到个人主站继续读。"
+            "AI news and conversations from X: daily reports and topic briefs, each linked to its sources. For my hands-on AI practice and thoughts on building a personal brand and independent business, visit my main site."
+            if en else "这里整理 X 上的 AI 动态与讨论，每日日报和中英文选题都附原始来源。想看我的 AI 实践，以及个人 IP 与独立经营的思考，欢迎到主站继续读。"
         )
         browse = "Browse the latest" if en else "阅读最新报告"
         subscribe = "Subscribe to my articles" if en else "免费订阅我的文章"

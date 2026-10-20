@@ -31,8 +31,8 @@ class Page(HTMLParser):
 
 class SiteTest(unittest.TestCase):
     def test_home_languages(self):
-        for path, phrase in [('index.html', '看懂 AI，选对下一步。'),
-                             ('en/index.html', 'AI news worth exploring.')]:
+        for path, phrase in [('index.html', '把个人能力经营成事业'),
+                             ('en/index.html', 'Turn your skills into a business.')]:
             file = Path('site') / path
             self.assertIn(phrase, file.read_text())
             page = Page(file)
