@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block extrahead %}
+  <meta name="msvalidate.01" content="953E8E8307196A93C605FACB44BAA059">
   {%- set og_title = config.site_name if (page and (page.is_homepage or page.url in ["", "en/"])) else (page.meta.title if page and page.meta and page.meta.title else (page.title if page and page.title else config.site_name)) -%}
   {%- set og_desc = (page.meta.description if page and page.meta and page.meta.description else config.site_description) -%}
   {%- set og_url = page.canonical_url if page and page.canonical_url else config.site_url -%}
