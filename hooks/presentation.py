@@ -33,6 +33,10 @@ def on_page_markdown(markdown, page, config, files):
         description = str(page.title or "") + (" — " if en else "：") + "; ".join(topics[:4])
         description = description[:155]
     page.meta.setdefault("description", description)
+    src = page.file.src_uri
+    if not home and (src.endswith("/index.md") or src.endswith("/index.en.md")):
+        # 分类列表页：顶部标签已经是导航，左侧导航和右侧目录都是重复的。
+        page.meta["hide"] = list(dict.fromkeys([*page.meta.get("hide", []), "navigation", "toc"]))
     if not home:
         return markdown
     title = "AI news worth exploring." if en else "看懂 AI，选对下一步。"
