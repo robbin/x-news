@@ -23,6 +23,19 @@ LABEL = re.compile(
 )
 
 
+def on_config(config):
+    # 给 extra.css 加内容哈希做版本号：样式一改，浏览器就会拉新文件，不会出现新页面配旧样式。
+    import hashlib, os
+    css = os.path.join(config["docs_dir"], "stylesheets", "extra.css")
+    if os.path.exists(css):
+        v = hashlib.md5(open(css, "rb").read()).hexdigest()[:8]
+        config["extra_css"] = [
+            f"stylesheets/extra.css?v={v}" if str(x).split("?")[0] == "stylesheets/extra.css" else x
+            for x in config["extra_css"]
+        ]
+    return config
+
+
 def is_english(config):
     return config["theme"].get("language") == "en"
 
