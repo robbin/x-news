@@ -356,7 +356,7 @@ def on_config(config):
         seen = {}
         entries = []
         for report in cat["reports"]:
-            label = report["date"][:10]
+            label = f'{report["date"][:10]} · {cat["zh"]}'
             seen[label] = seen.get(label, 0) + 1
             if seen[label] > 1:
                 label = f"{label} ({seen[label]})"

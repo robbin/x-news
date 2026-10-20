@@ -4,7 +4,7 @@ MkDocs Material site, deployed to GitHub Pages by `.github/workflows/deploy.yml`
 Site: https://news.fankai.me/  Repo: https://github.com/robbin/x-news
 
 ## Layout
-- `docs/{Daily,Chinese-Topics,English-Topics,High-Traffic}/*.md` — reports (YAML frontmatter `title`, `date` used if present; else first `#` heading / filename date).
+- `docs/{Daily,Chinese-Topics,English-Topics}/*.md` — reports (YAML frontmatter `title`, `date` used if present; else first `#` heading / filename date).
 - `hooks/autonav.py` — at build time generates nav, each category `index.md` and the homepage (newest first). Never edit mkdocs.yml to add reports. Generated `index.md` files are overwritten at build; don't hand-edit them.
 - `hooks/presentation.py` — adds the bilingual homepage introduction, page descriptions and email subscription CTA at build time. It does not modify report sources. Design lives in `docs/stylesheets/extra.css`.
 

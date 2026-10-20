@@ -16,6 +16,7 @@
   --fk-line: #e6e1d7;
   --fk-line-strong: #cfc8b8;
   --fk-accent: #a6402f;
+  --fk-on-accent: #fff;
   --fk-accent-soft: #f3e7e2;
   --fk-cat-daily: #2f4d8f;
   --fk-cat-cn: #96601b;
@@ -49,6 +50,7 @@
   --fk-line: #2b2f36;
   --fk-line-strong: #41464f;
   --fk-accent: #e28a72;
+  --fk-on-accent: #131519;
   --fk-accent-soft: #2e211d;
   --fk-cat-daily: #8fabe8;
   --fk-cat-cn: #d9a45d;
@@ -454,7 +456,7 @@ body {
 .md-typeset .fk-button:hover {
   background: var(--fk-accent);
   border-color: var(--fk-accent);
-  color: #fff;
+  color: var(--fk-on-accent);
   text-decoration: none;
 }
 
@@ -1156,7 +1158,7 @@ body {
 
 .md-top:hover {
   background: var(--fk-accent);
-  color: #fff;
+  color: var(--fk-on-accent);
 }
 
 /* --------------------------------------------------------------------------
@@ -1381,4 +1383,23 @@ body {
   .md-typeset a {
     color: inherit;
   }
+}
+
+/* 手机头部：品牌名放不下时换行显示，不截断。 */
+@media (max-width: 44.99em) {
+  .md-header__title {
+    margin-left: .3rem;
+    margin-right: .2rem;
+  }
+  .md-header__title .md-header__ellipsis,
+  .md-header__title .md-header__topic,
+  .md-header__title .md-ellipsis {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+    line-height: 1.15;
+  }
+  .md-header__title .md-header__ellipsis { height: auto; }
+  .md-header__title .md-header__topic { position: static; }
+  .md-header__title .md-header__topic + .md-header__topic { display: none; }
 }
