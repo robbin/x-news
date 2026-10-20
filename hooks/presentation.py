@@ -146,6 +146,8 @@ def on_page_markdown(markdown, page, config, files):
         # Preserve explicitly authored descriptions; otherwise derive a page-specific one.
         headings = re.findall(r"^#{2,3}\s+(.+)$", markdown, re.M)
         topics = [re.sub(r"[\[\]*`#]", "", h).strip() for h in headings]
+        # 跳过“1. AI 模型、产品与应用”这类分区标题，只留具体条目。
+        topics = [t for t in topics if not re.match(r"^\d+[.、]\s", t)] or topics
         label = report_title or str(page.title or "")
         if date:
             label += (" · " if en else " · ") + date.isoformat()
