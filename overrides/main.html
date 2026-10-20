@@ -18,4 +18,35 @@
   <meta name="twitter:title" content="{{ og_title }}">
   <meta name="twitter:description" content="{{ og_desc }}">
   <meta name="twitter:image" content="{{ og_img }}">
+  {%- if page and page.meta and page.meta.date and page.meta.type %}
+  {%- set crumbs = page.ancestors | reverse | list -%}
+  <script type="application/ld+json">
+  {{ {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "NewsArticle",
+        "headline": og_title,
+        "description": og_desc,
+        "datePublished": (page.meta.generated or page.meta.date) | string | replace(" ", "T"),
+        "dateModified": (page.meta.generated or page.meta.date) | string | replace(" ", "T"),
+        "inLanguage": "en" if config.theme.language == "en" else "zh-CN",
+        "mainEntityOfPage": og_url,
+        "url": og_url,
+        "image": [og_img],
+        "author": {"@type": "Person", "name": "范凯", "url": "https://fankai.me/"},
+        "publisher": {"@type": "Organization", "name": config.site_name, "url": config.site_url, "logo": {"@type": "ImageObject", "url": og_img}}
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {"@type": "ListItem", "position": 1, "name": config.site_name, "item": config.site_url ~ ("en/" if config.theme.language == "en" else "")},
+          {"@type": "ListItem", "position": 2, "name": (crumbs[0].title if crumbs else ""), "item": ((crumbs[0].children[0].canonical_url) if crumbs and crumbs[0].children else config.site_url)},
+          {"@type": "ListItem", "position": 3, "name": og_title, "item": og_url}
+        ]
+      }
+    ]
+  } | tojson }}
+  </script>
+  {%- endif %}
 {% endblock %}

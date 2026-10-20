@@ -151,8 +151,20 @@ def on_page_markdown(markdown, page, config, files):
         label = report_title or str(page.title or "")
         if date:
             label += (" · " if en else " · ") + date.isoformat()
-        description = label + (" — " if en else "：") + "; ".join(topics[:4])
-        description = description[:155]
+        # 按整条新闻截断，不在词中间断开。
+        description = label + (" — " if en else "：")
+        sep = "; " if en else "；"
+        picked = []
+        for t in topics[:4]:
+            if len(description + sep.join(picked + [t])) > 155:
+                break
+            picked.append(t)
+        description += sep.join(picked) if picked else ""
+        if not picked and topics:
+            description += topics[0][:150 - len(description)].rstrip() + "…"
+        if date:
+            # sitemap 的 lastmod 用报告日期，而不是构建日期。
+            page.update_date = date.isoformat()
     page.meta.setdefault("description", description)
     if not home and (src.endswith("/index.md") or src.endswith("/index.en.md")):
         # 分类列表页：顶部标签已经是导航，左侧导航和右侧目录都是重复的。
