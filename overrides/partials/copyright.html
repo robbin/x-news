@@ -1,0 +1,16 @@
+{#-
+  Editorial footer: publication mark + subscription clarification.
+-#}
+<div class="md-copyright">
+  {% if config.theme.language == "en" %}
+    <div class="fk-footer-about">
+      <span class="fk-footer-mark">Fan Kai on AI · X News</span>
+      <span class="fk-footer-note">Reports are free to read here. Email is for personal articles, not a daily news digest.</span>
+    </div>
+  {% else %}
+    <div class="fk-footer-about">
+      <span class="fk-footer-mark">范凯说AI · X 新闻</span>
+      <span class="fk-footer-note">新闻在网页上免费阅读；邮件订阅是个人文章，不是每日新闻推送。</span>
+    </div>
+  {% endif %}
+</div>

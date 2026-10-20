@@ -5,10 +5,23 @@ repo_url: https://github.com/robbin/x-news
 theme:
   name: material
   language: zh
+  font: false
+  custom_dir: overrides
   palette:
-    scheme: default
-    primary: white
-    accent: amber
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: white
+      accent: amber
+      toggle:
+        icon: material/weather-night
+        name: 深色模式 / Dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: black
+      accent: amber
+      toggle:
+        icon: material/weather-sunny
+        name: 浅色模式 / Light mode
   features:
     - navigation.tabs
     - navigation.indexes
@@ -64,6 +77,7 @@ extra_javascript:
 extra_css:
   - stylesheets/extra.css
 markdown_extensions:
+  - attr_list
   - tables
   - toc:
       permalink: true
