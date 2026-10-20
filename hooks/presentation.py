@@ -33,6 +33,13 @@ def on_config(config):
             f"stylesheets/extra.css?v={v}" if str(x).split("?")[0] == "stylesheets/extra.css" else x
             for x in config["extra_css"]
         ]
+    js = os.path.join(config["docs_dir"], "javascripts", "header-links.js")
+    if os.path.exists(js):
+        v = hashlib.md5(open(js, "rb").read()).hexdigest()[:8]
+        config["extra_javascript"] = [
+            f"javascripts/header-links.js?v={v}" if str(x).split("?")[0] == "javascripts/header-links.js" else x
+            for x in config["extra_javascript"]
+        ]
     return config
 
 
