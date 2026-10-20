@@ -69,7 +69,7 @@ def on_config(config):
             zh += [f"- {dt} · [{t}]({fn})" for dt, fn, t, _ in reports]
             en += [f"- {dt} · [{te or t}]({fn})" + ("" if te else " *(Chinese only)*") for dt, fn, t, te in reports]
         else:
-            zh.append("!!! note \"暂无报告\"\n    该分类还没有报告，主人请稍后再来。")
+            zh.append("!!! note \"暂无报告\"\n    该分类还没有报告，请稍后再来。")
             en.append("!!! note \"No reports yet\"\n    Nothing in this section yet. Please check back later.")
         _write(os.path.join(d, "index.md"), "\n".join(zh) + "\n")
         _write(os.path.join(d, "index.en.md"), "\n".join(en) + "\n")

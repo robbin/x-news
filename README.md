@@ -12,7 +12,7 @@ Site: https://news.fankai.me/  Repo: https://github.com/robbin/x-news
 
 All current subscription links lead to the personal publication at `fankai.me/subscribe`. These are Chinese personal articles, not daily or weekly news emails. UTM parameters distinguish the header, homepage hero, page footer and site footer; attribution availability depends on the destination analytics.
 
-A future weekly digest should have its own explicit opt-in (for example, a separate Substack section) and a verified subscription URL before adding a second CTA. Do not enroll existing article subscribers automatically or promise a schedule before the editorial workflow is ready. Keep report generation/sync under Jarvis; no credentials or subscriber data belong in this public repository.
+A future weekly digest should have its own explicit opt-in (for example, a separate Substack section) and a verified subscription URL before adding a second CTA. Do not enroll existing article subscribers automatically or promise a schedule before the editorial workflow is ready. Reports are generated and published by the News bot via the x-research skill; no credentials or subscriber data belong in this public repository.
 
 ## Local validation
 
