@@ -113,7 +113,17 @@ def _report(path, en=False):
             headings.append(h)
     limit = 58 if en else 34
     lead = " · ".join(_clip(h, limit) for h in headings[:2]) if headings else ""
+    # 首页卡片：标题用第一条推荐，冒号前的短标题；摘要用其后两条。
+    pick = ""
+    if headings:
+        pick = re.split(r"[：:]\s*", headings[0], maxsplit=1)[0].strip()
+        if len(pick) < 4:
+            pick = headings[0]
+        pick = _clip(pick, 64 if en else 36)
+    pick_lead = " · ".join(_clip(h, limit) for h in headings[1:3])
     return {
+        "pick": pick,
+        "pick_lead": pick_lead,
         "title": title,
         "date": date,
         "headings": len(headings),
@@ -163,8 +173,10 @@ def _write(path, content):
 
 def _card(report, cat, config, en):
     href = _url(config, f"{cat['folder']}/{report['file']}", "")
-    title = html.escape(report["title_en"] if en and report["title_en"] else report["title"])
-    lead = report["lead_en"] if en and report["lead_en"] else report["lead"]
+    use_en = en and report["title_en"]
+    pick = report["pick_en"] if use_en else report["pick"]
+    title = html.escape(pick or (report["title_en"] if use_en else report["title"]))
+    lead = report["pick_lead_en"] if use_en else report["pick_lead"]
     badge = cat["badge_en"] if en else cat["badge_zh"]
     count = report["headings"]
     count_label = f"{count} 条" if not en else f"{count} item" + ("" if count == 1 else "s")
@@ -248,8 +260,9 @@ def _section_page(cat, config, en):
     for report in cat["reports"]:
         href = _url(config, f"{cat['folder']}/{report['file']}", cat["folder"])
         part = _date_part(report["date"])
-        title = report["title_en"] if en and report["title_en"] else report["title"]
-        lead = report["lead_en"] if en and report["lead_en"] else report["lead"]
+        use_en = en and report["title_en"]
+        title = (report["pick_en"] if use_en else report["pick"]) or (report["title_en"] if use_en else report["title"])
+        lead = report["pick_lead_en"] if use_en else report["pick_lead"]
         count = report["headings"]
         count_label = f"{count} 条" if not en else f"{count} item" + ("" if count == 1 else "s")
         try:
@@ -340,6 +353,10 @@ def on_config(config):
                 "lead": zh["lead"],
                 "lead_en": en["lead"] if en else None,
                 "headings": zh["headings"],
+                "pick": zh["pick"],
+                "pick_en": en["pick"] if en else None,
+                "pick_lead": zh["pick_lead"],
+                "pick_lead_en": en["pick_lead"] if en else None,
             }
             cat["reports"].append(rec)
             latest.append(rec)

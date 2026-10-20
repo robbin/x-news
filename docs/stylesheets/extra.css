@@ -408,15 +408,15 @@ body {
    -------------------------------------------------------------------------- */
 
 .fk-hero {
-  margin: 0 0 1.6rem;
-  padding: .6rem 0 .4rem;
+  margin: 0 0 1rem;
+  padding: 0;
 }
 
 .md-typeset .fk-hero h1 {
   max-width: 18em;
-  margin: 0 0 1.05rem;
+  margin: 0 0 .45rem;
   color: var(--fk-ink);
-  font-size: clamp(1.55rem, 3.2vw, 2.05rem);
+  font-size: clamp(1.2rem, 2.2vw, 1.45rem);
   font-weight: 780;
   line-height: 1.16;
   letter-spacing: -.028em;
@@ -435,7 +435,7 @@ body {
   display: flex;
   flex-wrap: wrap;
   gap: .6rem;
-  margin-top: 1.6rem;
+  margin-top: .8rem;
 }
 
 .md-typeset .fk-button {
@@ -1251,7 +1251,7 @@ body {
   }
 
   .md-typeset .fk-hero h1 {
-    font-size: clamp(1.55rem, 5.4vw, 2.05rem);
+    font-size: clamp(1.15rem, 4.6vw, 1.35rem);
     line-height: 1.22;
   }
 

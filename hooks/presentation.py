@@ -170,16 +170,15 @@ def on_page_markdown(markdown, page, config, files):
         # 分类列表页：顶部标签已经是导航，左侧导航和右侧目录都是重复的。
         page.meta["hide"] = list(dict.fromkeys([*page.meta.get("hide", []), "navigation", "toc"]))
     if home:
-        title = "Turn your skills into a business." if en else "把个人能力经营成事业"
+        title = "Daily AI news and topics from X" if en else "每天的 AI 新闻与选题，来自 X"
         kicker = "FAN KAI · CREATE VALUE WITH AI" if en else "范凯说AI · 用 AI 创造价值"
         subtitle = (
-            "AI news and conversations from X: daily reports and topic briefs, each linked to its sources. For my hands-on AI practice and thoughts on building a personal brand and independent business, visit my main site."
-            if en else "这里整理 X 上的 AI 动态与讨论，每日日报和中英文选题都附原始来源。想看我的 AI 实践，以及个人 IP 与独立经营的思考，欢迎到主站继续读。"
+            "A daily AI report plus Chinese and English topic briefs, every item linked to its source."
+            if en else "X AI 日报和中英文热点选题，每条都附原始来源。"
         )
         browse = "Browse the latest" if en else "阅读最新报告"
         subscribe = "Subscribe to my articles" if en else "免费订阅我的文章"
         hero = f'''<section class="fk-hero" aria-label="{'Introduction' if en else '网站介绍'}">
-<p class="fk-eyebrow">{kicker}</p>
 <h1>{title}</h1>
 <p class="fk-intro">{subtitle}</p>
 <div class="fk-actions"><a class="fk-button" href="#latest-reports">{browse}</a><a class="fk-button fk-button-secondary" href="{html.escape(subscription_url('home_hero'), quote=True)}">{subscribe}</a></div>
