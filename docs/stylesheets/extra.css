@@ -52,3 +52,10 @@ body { background: #f7f9fc; }
   .fk-actions .fk-button { text-align: center; }
   .md-typeset .fk-hero h1 { font-size: 1.5rem; }
 }
+
+/* 隐藏左右侧栏的页面（首页、分类列表页）：正文居中，不贴左 */
+.md-main__inner:has(.md-sidebar--primary[hidden]) .md-content {
+  max-width: 52rem;
+  margin-left: auto;
+  margin-right: auto;
+}

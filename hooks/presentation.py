@@ -61,8 +61,8 @@ def on_page_markdown(markdown, page, config, files):
 
 def on_page_content(html_content, page, config, files):
     # 订阅卡片只放在报告页：首页已有顶部按钮，分类列表页不需要。
-    src = page.file.src_uri
-    if src in ("index.md", "index.en.md") or src.endswith("/index.md") or src.endswith("/index.en.md"):
+    # 订阅卡片不放首页（首页已有顶部订阅按钮）；报告页和分类列表页保留。
+    if page.file.src_uri in ("index.md", "index.en.md"):
         return html_content
     en = is_english(config)
     title = "Beyond the headlines" if en else "新闻之外，读一点亲身实践。"
