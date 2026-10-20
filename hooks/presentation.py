@@ -162,7 +162,6 @@ def on_page_markdown(markdown, page, config, files):
 <h1>{title}</h1>
 <p class="fk-intro">{subtitle}</p>
 <div class="fk-actions"><a class="fk-button" href="#latest-reports">{browse}</a><a class="fk-button fk-button-secondary" href="{html.escape(subscription_url('home_hero'), quote=True)}">{subscribe}</a></div>
-<p class="fk-fineprint">{'Email articles are in Chinese. News reports remain freely available here.' if en else '新闻在网页上免费阅读；邮件订阅接收我的个人文章，不是每日新闻推送。'}</p>
 </section>'''
         markdown = re.sub(r"^# .+\n", "", markdown, count=1)
         markdown = markdown.replace("## 最新报告", "## 最新报告 {#latest-reports}").replace("## Latest reports", "## Latest reports {#latest-reports}")

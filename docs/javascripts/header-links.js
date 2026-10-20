@@ -3,9 +3,7 @@
   var links = [
     [en ? "Home" : "主站", "https://fankai.me/"],
     [en ? "Subscribe" : "免费订阅", "https://fankai.me/subscribe?utm_source=news.fankai.me&utm_medium=website&utm_campaign=personal_articles&utm_content=header"],
-    [en ? "Tutorials" : "教程", "https://fankaishuo.ai/"],
-    ["YouTube", "https://www.youtube.com/@fankaishuoai"],
-    ["X", "https://x.com/fankaishuoai"]
+    [en ? "Tutorials" : "教程", "https://fankaishuo.ai/"]
   ];
   function add() {
     var inner = document.querySelector(".md-header__inner");

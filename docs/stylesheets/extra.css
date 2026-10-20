@@ -195,7 +195,7 @@ body {
 .fk-links {
   display: flex;
   gap: .95em;
-  margin: 0 .9em;
+  margin: 0 .9em 0 1.6em;
   font-size: .63rem;
   font-weight: 500;
   letter-spacing: .02em;
@@ -410,10 +410,8 @@ body {
    -------------------------------------------------------------------------- */
 
 .fk-hero {
-  margin: 0 0 3.2rem;
-  padding: 2.6rem 0 2.2rem;
-  border-top: 2px solid var(--fk-ink);
-  border-bottom: 1px solid var(--fk-line);
+  margin: 0 0 1.6rem;
+  padding: .6rem 0 .4rem;
 }
 
 .md-typeset .fk-hero h1 {

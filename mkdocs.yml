@@ -1,7 +1,6 @@
 site_name: 范凯说AI · X 新闻
 site_url: https://news.fankai.me/
 site_description: 范凯的 AI 新闻阅读站：X AI 日报、中英文热点简报与原始来源，连接 AI 实践和个人思考。
-repo_url: https://github.com/robbin/x-news
 theme:
   name: material
   language: zh
