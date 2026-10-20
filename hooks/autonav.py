@@ -66,8 +66,8 @@ def on_config(config):
         zh = [f"# {label}\n"]
         en = [f"# {label_en}\n"]
         if reports:
-            zh += [f"- **{dt}** · [{t}]({fn})" for dt, fn, t, _ in reports]
-            en += [f"- **{dt}** · [{te or t}]({fn})" + ("" if te else " *(Chinese only)*") for dt, fn, t, te in reports]
+            zh += [f"- {dt} · [{t}]({fn})" for dt, fn, t, _ in reports]
+            en += [f"- {dt} · [{te or t}]({fn})" + ("" if te else " *(Chinese only)*") for dt, fn, t, te in reports]
         else:
             zh.append("!!! note \"暂无报告\"\n    该分类还没有报告，主人请稍后再来。")
             en.append("!!! note \"No reports yet\"\n    Nothing in this section yet. Please check back later.")
@@ -80,8 +80,8 @@ def on_config(config):
     home = ["# 范凯说AI · X 新闻\n", "## 最新报告\n"]
     home_en = ["# Fan Kai on AI · X News\n", "## Latest reports\n"]
     if top:
-        home += [f"- **{dt}** · `{l}` · [{t}]({f}/{fn})" for dt, f, fn, t, te, l, le in top]
-        home_en += [f"- **{dt}** · `{le}` · [{te or t}]({f}/{fn})" for dt, f, fn, t, te, l, le in top]
+        home += [f"- {dt} · `{l}` · [{t}]({f}/{fn})" for dt, f, fn, t, te, l, le in top]
+        home_en += [f"- {dt} · `{le}` · [{te or t}]({f}/{fn})" for dt, f, fn, t, te, l, le in top]
     else:
         home.append("暂无报告。")
         home_en.append("No reports yet.")

@@ -1,6 +1,6 @@
 site_name: 范凯说AI · X 新闻
 site_url: https://news.fankai.me/
-site_description: 每日 X 新闻报告
+site_description: 范凯的 AI 新闻阅读站：X AI 日报、中英文热点简报与原始来源，连接 AI 实践和个人思考。
 repo_url: https://github.com/robbin/x-news
 theme:
   name: material
@@ -40,9 +40,13 @@ plugins:
             X AI 日报: X AI Daily
 hooks:
   - hooks/autonav.py
+  - hooks/presentation.py
 extra:
   generator: false
   social:
+    - icon: material/email-outline
+      link: https://fankai.me/subscribe?utm_source=news.fankai.me&utm_medium=website&utm_campaign=personal_articles&utm_content=site_footer
+      name: 免费订阅范凯的个人文章（中文）
     - icon: material/home
       link: https://fankai.me/
       name: 主站 fankai.me
