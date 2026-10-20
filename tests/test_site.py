@@ -12,10 +12,13 @@ class Page(HTMLParser):
         self.descriptions = []
         self.canonicals = []
         self.h1 = 0
+        self.hidden_sidebars = []
         self.feed(path.read_text())
 
     def handle_starttag(self, tag, attrs):
         a = dict(attrs)
+        if a.get('data-md-component') == 'sidebar' and 'hidden' in a:
+            self.hidden_sidebars.append(a.get('data-md-type'))
         if tag == 'a':
             self.links.append(a.get('href', ''))
         if tag == 'meta' and a.get('name') == 'description':
@@ -34,6 +37,7 @@ class SiteTest(unittest.TestCase):
             self.assertIn(phrase, file.read_text())
             page = Page(file)
             self.assertEqual(page.h1, 1)
+            self.assertEqual(set(page.hidden_sidebars), {'navigation', 'toc'})
             self.assertTrue(page.descriptions[0])
             self.assertTrue(page.canonicals[0].startswith('https://news.fankai.me/'))
 
@@ -44,6 +48,7 @@ class SiteTest(unittest.TestCase):
             with self.subTest(file=file):
                 page = Page(file)
                 self.assertTrue(page.descriptions[0])
+                self.assertEqual(page.hidden_sidebars, [])
                 links = [urlparse(link) for link in page.links if 'utm_content=page_footer' in link]
                 self.assertEqual(len(links), 1)
                 self.assertEqual(links[0].netloc, 'fankai.me')

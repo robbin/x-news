@@ -19,6 +19,9 @@ def on_page_markdown(markdown, page, config, files):
     en = is_english(config)
     home = page.file.src_uri in ("index.md", "index.en.md")
     if home:
+        # The landing page is not a documentation page: keep the top tabs,
+        # but omit the redundant left navigation and right table of contents.
+        page.meta["hide"] = list(dict.fromkeys([*page.meta.get("hide", []), "navigation", "toc"]))
         description = (
             "AI news and conversations from X, with source links. Explore daily reports and Chinese- and English-language topic briefs curated with AI."
             if en else "汇集 X 上的 AI 新闻与讨论，提供日报、中英文热点简报和原始来源入口。由范凯的 AI 工作流整理，帮助你发现值得进一步阅读的话题。"
