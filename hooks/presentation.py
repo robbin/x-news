@@ -176,7 +176,7 @@ def on_page_markdown(markdown, page, config, files):
             "A daily AI report plus Chinese and English topic briefs, every item linked to its source."
             if en else "X AI 日报和中英文热点选题，每条都附原始来源。"
         )
-        browse_note = "Weekly news roundup plus my AI practice notes." if en else "每周新闻周报加我的 AI 实践文章"
+        browse_note = "Weekly news roundup + my AI practice notes." if en else "每周新闻周报 + 我的 AI 实践文章"
         subscribe = "Subscribe to my articles" if en else "免费订阅我的文章"
         side = f'<p class="fk-side__title">{title}</p><p class="fk-side__intro">{subtitle}</p>'
         actions = (f'<iframe class="fk-side__embed" src="https://fankai.me/embed" title="{subscribe}" loading="lazy" scrolling="no"></iframe>'

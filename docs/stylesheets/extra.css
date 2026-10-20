@@ -1432,3 +1432,4 @@ body {
 .md-main__inner:has(.fk-front) { margin-top: .9rem; }
 .md-content__inner:has(.fk-front)::before { display: none; }
 .md-typeset .fk-side__embed { display: block; width: 100%; height: 320px; border: 1px solid var(--fk-line); border-radius: 2px; background: #fff; }
+.md-typeset .fk-side__note { text-align: center; }
