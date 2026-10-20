@@ -1384,22 +1384,3 @@ body {
     color: inherit;
   }
 }
-
-/* 手机头部：品牌名放不下时换行显示，不截断。 */
-@media (max-width: 44.99em) {
-  .md-header__title {
-    margin-left: .3rem;
-    margin-right: .2rem;
-  }
-  .md-header__title .md-header__ellipsis,
-  .md-header__title .md-header__topic,
-  .md-header__title .md-ellipsis {
-    white-space: normal;
-    overflow: visible;
-    text-overflow: clip;
-    line-height: 1.15;
-  }
-  .md-header__title .md-header__ellipsis { height: auto; }
-  .md-header__title .md-header__topic { position: static; }
-  .md-header__title .md-header__topic + .md-header__topic { display: none; }
-}
