@@ -86,6 +86,44 @@ def _display_title(title):
     return t.strip() or title.strip()
 
 
+SUMMARY_LABELS = r"(?:发生了什么|内容与关注点|What happened|Content and (?:focus|angles?|talking points)|What it is)"
+
+
+def _tidy(text):
+    # 去掉带数字的括号（时间、热度数据），摘要只留叙述。
+    text = re.sub(r"[（(][^（）()]*\d[^（）()]*[)）]", "", text)
+    return re.sub(r"\s+([，。,.;；])", r"\1", text).strip()
+
+
+def _summary(body, en):
+    """Short plain-text summary of the report's first item, for the home front page."""
+    limit = 230 if en else 110
+    first = re.search(r"^###\s+.+$", body, re.M)
+    if first:
+        nxt = re.search(r"^#{2,3}\s+", body[first.end():], re.M)
+        sect = body[first.end(): first.end() + (nxt.start() if nxt else len(body))]
+        for m in re.finditer(r"^(?:-\s+)?" + SUMMARY_LABELS + r"\s*[：:]\s*(.+)$", sect, re.M | re.I):
+            text = _tidy(_plain(m.group(1)))
+            text = re.sub(r'^(?:见「今日优先看」第\s*1\s*条[。.]?|see item 1 of "Today\'s Priority Reads\."?)\s*(?:补充一句背景[：:]|One piece of background:)?\s*', "", text, flags=re.I)
+            if text and not re.match(r"^(见|see )", text, re.I):
+                return _clip(text, limit)
+    pri = re.search(r"^##\s+(?:今日优先看|Today's Priority Reads?)\s*$", body, re.M)
+    if pri:
+        rest = body[pri.end():]
+        end = re.search(r"^(?:2\.\s|##\s)", rest, re.M)
+        block = rest[: end.start() if end else len(rest)]
+        block = re.sub(r"^\s*1\.\s+", "", block.strip())
+        parts = [x.strip() for x in re.split(r"\n\s*\n", block) if x.strip()]
+        if parts:
+            head = parts[0]
+            cut = re.search(r"[（(](?:见第\s*1\s*条|see item 1)[)）][。.]?\s*", head, re.I)
+            text = head[cut.end():] if cut else " ".join(parts[1:2])
+            text = _tidy(re.sub(r"^[^：:]{1,24}[：:]\s*", "", _plain(text)))
+            if text:
+                return _clip(text, limit)
+    return ""
+
+
 def _report(path, en=False):
     meta, body = _read(path)
     h1 = re.search(r"^#\s+(.+?)\s*$", body, re.M)
@@ -122,6 +160,9 @@ def _report(path, en=False):
         pick = _clip(pick, 64 if en else 36)
     pick_lead = " · ".join(_clip(h, limit) for h in headings[1:3])
     return {
+        "summary": _summary(body, en),
+        "brief": [_clip(h, 110 if en else 60) for h in headings[1:5]],
+        "first": headings[0] if headings else "",
         "pick": pick,
         "pick_lead": pick_lead,
         "title": title,
@@ -228,6 +269,62 @@ def _home(config, latest, day_limit, en):
         out.append("</div></section>")
     out.append("</div>")
     return "\n".join(out)
+
+
+def _front(config, cats, en):
+    """Front page: the newest report of each type, so the slots are never empty."""
+    by = {c["key"]: c for c in cats}
+    order = [k for k in ("daily", "cn", "en") if k in by] or [c["key"] for c in cats]
+    picks = [(by[k], by[k]["reports"][0]) for k in order if by.get(k) and by[k]["reports"]]
+    if not picks:
+        return ""
+
+    def val(r, key):
+        return r[key + "_en"] if en and r["title_en"] and r.get(key + "_en") is not None else r[key]
+
+    def href(cat, r):
+        return html.escape(_url(config, f"{cat['folder']}/{r['file']}", ""), quote=True)
+
+    def meta(cat, r):
+        badge = cat["badge_en"] if en else cat["badge_zh"]
+        d = _date_part(r["date"])
+        return (f'<span class="fk-lead__meta"><span class="fk-badge">{html.escape(badge)}</span>'
+                f'<time datetime="{html.escape(d)}">{html.escape(d[5:].replace("-", "/"))}</time></span>')
+
+    cat, r = picks[0]
+    out = ['<div class="fk-lead">',
+           f'<h1 class="fk-lead__kicker">{"Top stories" if en else "今日头条"}</h1>',
+           f'<a class="fk-lead__main" data-cat="{cat["key"]}" href="{href(cat, r)}">{meta(cat, r)}'
+           f'<span class="fk-lead__title">{html.escape(val(r, "pick") or val(r, "title"))}</span>']
+    if val(r, "summary"):
+        out.append(f'<span class="fk-lead__summary">{html.escape(val(r, "summary"))}</span>')
+    out.append('</a>')
+    if len(picks) > 1:
+        out.append('<div class="fk-lead__subs">')
+        for cat2, r2 in picks[1:]:
+            out.append(f'<a class="fk-lead__sub" data-cat="{cat2["key"]}" href="{href(cat2, r2)}">{meta(cat2, r2)}'
+                       f'<span class="fk-lead__subtitle">{html.escape(val(r2, "pick") or val(r2, "title"))}</span>'
+                       + (f'<span class="fk-lead__subsummary">{html.escape(val(r2, "summary"))}</span>' if val(r2, "summary") else "")
+                       + '</a>')
+        out.append('</div>')
+    brief = val(r, "brief") or []
+    if brief:
+        out.append(f'<div class="fk-lead__brief"><p class="fk-lead__brief-label">{"Also in the daily report" if en else "日报里还有"}</p><ul>')
+        out.extend(f'<li><a href="{href(cat, r)}">{html.escape(b)}</a></li>' for b in brief)
+        out.append('</ul></div>')
+    out.append('</div>')
+    side = ['<aside class="fk-side">', '<!--FK-SIDE-->', '<ul class="fk-side__list">']
+    for c in cats:
+        if not c["reports"]:
+            continue
+        latest = c["reports"][0]
+        side.append(f'<li><a href="{html.escape(_url(config, c["folder"] + "/index.md", ""), quote=True)}">'
+                    f'<span>{html.escape(c["en"] if en else c["zh"])}</span>'
+                    f'<time>{html.escape(_date_part(latest["date"])[5:].replace("-", "/"))}</time></a></li>')
+    side.append('</ul>')
+    side.append('<!--FK-SIDE-ACTIONS-->')
+    side.append('</aside>')
+    return '<div class="fk-front">' + "".join(out) + "".join(side) + '</div>'
 
 
 def _sections(config, cats, en):
@@ -353,6 +450,10 @@ def on_config(config):
                 "lead": zh["lead"],
                 "lead_en": en["lead"] if en else None,
                 "headings": zh["headings"],
+                "summary": zh["summary"],
+                "summary_en": en["summary"] if en else None,
+                "brief": zh["brief"],
+                "brief_en": en["brief"] if en else None,
                 "pick": zh["pick"],
                 "pick_en": en["pick"] if en else None,
                 "pick_lead": zh["pick_lead"],
@@ -382,8 +483,8 @@ def on_config(config):
         cats.append(cat)
 
     latest.sort(key=lambda r: (r["date"], -r["cat"]["order"]), reverse=True)
-    home = ["# 范凯说AI · X 新闻\n", "## 最新报告\n", _home(config, latest, 4, False), "\n## 分类\n", _sections(config, cats, False)]
-    home_en = ["# Fan Kai on AI · X News\n", "## Latest reports\n", _home(config, latest, 4, True), "\n## Sections\n", _sections(config, cats, True)]
+    home = ["# 范凯说AI · X 新闻\n", _front(config, cats, False) + "\n", "## 最新报告\n", _home(config, latest, 4, False), "\n## 分类\n", _sections(config, cats, False)]
+    home_en = ["# Fan Kai on AI · X News\n", _front(config, cats, True) + "\n", "## Latest reports\n", _home(config, latest, 4, True), "\n## Sections\n", _sections(config, cats, True)]
     _write(os.path.join(docs, "index.md"), "\n".join(home) + "\n")
     _write(os.path.join(docs, "index.en.md"), "\n".join(home_en) + "\n")
     config["nav"] = nav

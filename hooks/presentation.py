@@ -176,16 +176,16 @@ def on_page_markdown(markdown, page, config, files):
             "A daily AI report plus Chinese and English topic briefs, every item linked to its source."
             if en else "X AI 日报和中英文热点选题，每条都附原始来源。"
         )
-        browse = "Browse the latest" if en else "阅读最新报告"
+        browse_note = "My weekly articles on AI practice, by email." if en else "订阅的是我每周的 AI 实践文章，不推送新闻。"
         subscribe = "Subscribe to my articles" if en else "免费订阅我的文章"
-        hero = f'''<section class="fk-hero" aria-label="{'Introduction' if en else '网站介绍'}">
-<h1>{title}</h1>
-<p class="fk-intro">{subtitle}</p>
-<div class="fk-actions"><a class="fk-button" href="#latest-reports">{browse}</a><a class="fk-button fk-button-secondary" href="{html.escape(subscription_url('home_hero'), quote=True)}">{subscribe}</a></div>
-</section>'''
+        side = f'<p class="fk-side__title">{title}</p><p class="fk-side__intro">{subtitle}</p>'
+        actions = (f'<a class="fk-button fk-side__button" href="{html.escape(subscription_url("home_hero"), quote=True)}">{subscribe}</a>'
+                   f'<p class="fk-side__note">{browse_note}</p>')
+        hero = ""
         markdown = re.sub(r"^# .+\n", "", markdown, count=1)
         markdown = markdown.replace("## 最新报告", "## 最新报告 {#latest-reports}").replace("## Latest reports", "## Latest reports {#latest-reports}")
-        return hero + "\n\n" + markdown
+        markdown = markdown.replace("<!--FK-SIDE-->", side).replace("<!--FK-SIDE-ACTIONS-->", actions)
+        return markdown
     if is_report:
         label = SECTIONS[section][1 if en else 0]
         back_row, facts = _report_head(page, config, en, label)
