@@ -65,6 +65,9 @@ extra:
     - icon: material/school
       link: https://fankaishuo.ai/
       name: 教程 fankaishuo.ai
+    - icon: material/code-braces
+      link: https://projects.fankai.me/
+      name: 项目 projects.fankai.me
     - icon: fontawesome/brands/youtube
       link: https://www.youtube.com/@fankaishuoai
       name: YouTube

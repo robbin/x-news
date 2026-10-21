@@ -2,7 +2,8 @@
   var en = (document.documentElement.lang || "").toLowerCase().indexOf("en") === 0;
   var links = [
     [en ? "Home" : "主站", "https://fankai.me/"],
-    [en ? "Tutorials" : "教程", "https://fankaishuo.ai/"]
+    [en ? "Tutorials" : "教程", "https://fankaishuo.ai/"],
+    [en ? "Projects" : "项目", "https://projects.fankai.me/"]
   ];
   function add() {
     var inner = document.querySelector(".md-header__inner");
