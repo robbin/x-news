@@ -55,6 +55,9 @@ hooks:
   - hooks/presentation.py
 extra:
   generator: false
+  analytics:
+    provider: google
+    property: G-L73LSS6JJ1
   social:
     - icon: material/email-outline
       link: https://fankai.me/subscribe?utm_source=news.fankai.me&utm_medium=website&utm_campaign=personal_articles&utm_content=site_footer
