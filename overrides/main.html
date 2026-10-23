@@ -1,4 +1,17 @@
 {% extends "base.html" %}
+{% block htmltitle %}
+  {%- set _parts = config.site_name.split(" · ") -%}
+  {%- set _brand = _parts[0] -%}
+  {%- set _site = (_parts[1:] | join(" · ")) if _parts | length > 1 else "" -%}
+  {%- set _suffix = (_site ~ " | " ~ _brand) if _site else _brand -%}
+  {%- set _is_home = page and (page.is_homepage or page.url in ["", "en/"]) -%}
+  {%- set _pt = (page.meta.title if page and page.meta and page.meta.title else (page.title if page and page.title else "")) -%}
+  {%- if _is_home or not _pt -%}
+  <title>{{ _suffix }}</title>
+  {%- else -%}
+  <title>{{ _pt | striptags }} | {{ _suffix }}</title>
+  {%- endif -%}
+{% endblock %}
 {% block extrahead %}
   <meta name="msvalidate.01" content="953E8E8307196A93C605FACB44BAA059">
   {%- set og_title = config.site_name if (page and (page.is_homepage or page.url in ["", "en/"])) else (page.meta.title if page and page.meta and page.meta.title else (page.title if page and page.title else config.site_name)) -%}
