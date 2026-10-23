@@ -9,7 +9,7 @@
   {%- if _is_home or not _pt -%}
   <title>{{ _suffix }}</title>
   {%- else -%}
-  <title>{{ _pt | striptags }} | {{ _suffix }}</title>
+  <title>{{ _pt | striptags }} | {{ _brand }}</title>
   {%- endif -%}
 {% endblock %}
 {% block extrahead %}
